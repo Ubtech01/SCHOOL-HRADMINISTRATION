@@ -26,49 +26,19 @@ namespace SCHOOL_HRADMINISTRATION
         }
         public static void SeedData(List<IEmployee> employees)
         {
-            IEmployee teacher1 = new Teacher
-            {
-                Id = 1,
-                FirstName = "Ubong",
-                LastName = "Akpan",
-                Salary = 30000
-            };
+            IEmployee teacher1 = EmployeeFactory.GetEmployeeInstance(EmployeeType.Teacher, 1, "Ubong", "Akpan", 30000 );
             employees.Add(teacher1);
 
-            IEmployee teacher2 = new Teacher
-            {
-                Id = 2,
-                FirstName = "John",
-                LastName = "Doe",
-                Salary = 40000
-            };
+            IEmployee teacher2 = EmployeeFactory.GetEmployeeInstance(EmployeeType.Teacher, 2, "John", "Doe", 40000);
             employees.Add(teacher2);
 
-            IEmployee headOfDepartment = new HeadOfDepartment
-            {
-                Id = 3,
-                FirstName = "Isaac",
-                LastName = "Oguche",
-                Salary = 60000
-            };
+            IEmployee headOfDepartment = EmployeeFactory.GetEmployeeInstance(EmployeeType.HeadOfDepartment, 3, "Weng", "Geng", 60000);
             employees.Add(headOfDepartment);
 
-            IEmployee deputyHeadMaster = new DeputyHeadMaster
-            {
-                Id = 4,
-                FirstName = "Shalom",
-                LastName = "Gar",
-                Salary = 50000
-            };
+            IEmployee deputyHeadMaster =  EmployeeFactory.GetEmployeeInstance(EmployeeType.DeputyHeadMaster, 4, "Shalom", "Gar", 80000);
             employees.Add(deputyHeadMaster);
 
-            IEmployee headMaster = new HeadMaster
-            {
-                Id = 5,
-                FirstName = "John",
-                LastName = "Doe",
-                Salary = 40000
-            };
+            IEmployee headMaster = EmployeeFactory.GetEmployeeInstance(EmployeeType.HeadMaster, 2, "Bassey", "Etuk", 40000);
             employees.Add(headMaster);
         }
     }
@@ -99,19 +69,30 @@ namespace SCHOOL_HRADMINISTRATION
             switch (employeeType)
             {
                 case EmployeeType.Teacher:
-                    employee = new Teacher { Id = id, FirstName = firstName, LastName = lastName, Salary = salary };
+                    employee = FactoryPattern<IEmployee, Teacher>.GetInstance();
                     break;
                 case EmployeeType.HeadOfDepartment:
-                    employee = new Teacher { Id = id, FirstName = firstName, LastName = lastName, Salary = salary };
+                    employee = FactoryPattern<IEmployee, HeadOfDepartment>.GetInstance();
                     break;
                 case EmployeeType.DeputyHeadMaster:
-                    employee = new Teacher { Id = id, FirstName = firstName, LastName = lastName, Salary = salary };
+                    employee = FactoryPattern<IEmployee, DeputyHeadMaster>.GetInstance();
                     break;
                 case EmployeeType.HeadMaster:
-                    employee = new Teacher { Id = id, FirstName = firstName, LastName = lastName, Salary = salary };
+                    employee = FactoryPattern<IEmployee, HeadMaster>.GetInstance();
                     break;
                 default:
                     break;
+            }
+            if(employee != null) 
+            {
+              employee.Id = id;
+              employee.FirstName = firstName;
+              employee.LastName = lastName;
+              employee.Salary = salary;
+            }
+            else 
+            {
+              throw new NullReferenceException();
             }
             return employee!;
         }
